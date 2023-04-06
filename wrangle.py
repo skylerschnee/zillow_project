@@ -46,6 +46,23 @@ def acquire_zillow_data():
     
 ################################ clean Data #####################################     
 
+def remove_outliers(df,feature_list):
+    ''' utilizes IQR to remove data which lies beyond 
+    three standard deviations of the mean
+    '''
+    for feature in feature_list:
+    
+        #define interquartile range
+        Q1= df[feature].quantile(0.25)
+        Q3 = df[feature].quantile(0.75)
+        IQR = Q3 - Q1
+        #Set limits
+        upper_limit = Q3 + 3 * IQR
+        lower_limit = Q1 - 3 * IQR
+        #remove outliers
+        df = df[(df[feature] > lower_limit) & (df[feature] < upper_limit)]
+
+    return df
 
 def clean_zillow_data(df):
     '''
@@ -75,6 +92,9 @@ def clean_zillow_data(df):
     # Use replace to rename values in the county column
     df['county'] = df['county'].replace({6037.0: 'los_angeles', 6059.0: 'orange', 6111.0: 'ventura'})
     
+    #remove outliers
+    df = remove_outliers(df,['bedrooms','bathrooms','sqft','home_value'])
+    
     df.reset_index(drop=True)
     return df
 
@@ -84,16 +104,17 @@ def split_zillow(df):
     '''
     split_zillow will take in a single pandas df referencing a cleaned
     version of zillow data, and will then split the data into train,
-    validate, and test sets
+    validate, and test sets stratifying on home_value
     
     Arguments: df. a pandas dataframe
     return: train, validate, test: the pandas df split from orginal df 
     '''
     train_val, test = train_test_split(df, random_state = 828, train_size = 0.8)
     train, validate = train_test_split(train_val, random_state = 828, train_size = 0.7)
-    return df, train, validate, test
+    return train, validate, test
 
-################################ full wrangle Data ##################################### 
+
+
 
 def wrangle_zillow():
     '''
@@ -101,9 +122,7 @@ def wrangle_zillow():
     a local .csv if present, if not, aquire through a sql query, save the data to a local .csv
     then proceed with cleaning the data, then splitting into train, test, and validate
     '''
-    return split_zillow(
-        clean_zillow_data(
-            acquire_zillow_data()))
+    return clean_zillow_data(acquire_zillow_data())
 
 ################################ scale Data ##################################### 
 
