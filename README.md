@@ -55,16 +55,16 @@ My initial hypothesis is that county, bedrooms, bathrooms, & square feet, are si
 
 # Takeaways and Conclusions
 
-* 
-*
-*
+- All models performed better than the baseline
+- The RMSE for OLS was the lowest at 223504
+- Because of this RMSE score and the low RMSE delta between train and validate set, I will proceed with this model on my test set.
+- Our test data results were similar to train and validate
+- The OLS model has improved the accuracy of the predictions by reducing the error from the baseline by approximately 17%.
 
 # Recommendations
 
-*
-*
+- If deeper location data were available like zip code for example, we could have much stronger of a location driver than just county
 
 # Next Steps
 
-*
-*
+- With more time, I would like to do more feature engineering, run addiitonal regression models, and explore the original database futher to see what features can be added

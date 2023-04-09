@@ -124,41 +124,71 @@ def wrangle_zillow():
     '''
     return clean_zillow_data(acquire_zillow_data())
 
-################################ scale Data ##################################### 
+################################ scale and prep for modeling ##################################### 
 
-def scale_data(train, 
-               validate, 
-               test, 
-               columns_to_scale=['bedrooms', 'bathrooms', 'sqft', 'yearly_tax'],
-               return_scaler=False):
+def driver_sets(train, validate, test, features):
+    train = train[features]
+    validate=validate[features]
+    test=test[features]
+    return train, validate, test
+
+def scale_zillow(train, validate, test):
     '''
-    Scales the 3 data splits. 
-    Takes in train, validate, and test data splits and returns their scaled counterparts.
-    If return_scalar is True, the scaler object will be returned as well
+    Takes in train, validate, test and scales those features.
+    Returns df with new columns with scaled data
     '''
-    # make copies of our original data so we dont gronk up anything
+    scale_features=['bedrooms', 'bathrooms', 'sqft']
+    
     train_scaled = train.copy()
     validate_scaled = validate.copy()
     test_scaled = test.copy()
-    #     make the thing
-    scaler = sklearn.preprocessing.MinMaxScaler()
-    #     fit the thing
-    scaler.fit(train[columns_to_scale])
-    # applying the scaler:
-    train_scaled[columns_to_scale] = pd.DataFrame(scaler.transform(train[columns_to_scale]),
-                                                  columns=train[columns_to_scale].columns.values).set_index([train.index.values])
+    
+    minmax = sklearn.preprocessing.MinMaxScaler()
+    minmax.fit(train[scale_features])
+    
+    train_scaled[scale_features] = pd.DataFrame(minmax.transform(train[scale_features]),
+                                                  columns=train[scale_features].columns.values).set_index([train.index.values])
                                                   
-    validate_scaled[columns_to_scale] = pd.DataFrame(scaler.transform(validate[columns_to_scale]),
-                                                  columns=validate[columns_to_scale].columns.values).set_index([validate.index.values])
+    validate_scaled[scale_features] = pd.DataFrame(minmax.transform(validate[scale_features]),
+                                               columns=validate[scale_features].columns.values).set_index([validate.index.values])
     
-    test_scaled[columns_to_scale] = pd.DataFrame(scaler.transform(test[columns_to_scale]),
-                                                 columns=test[columns_to_scale].columns.values).set_index([test.index.values])
+    test_scaled[scale_features] = pd.DataFrame(minmax.transform(test[scale_features]),
+                                                 columns=test[scale_features].columns.values).set_index([test.index.values])
     
-    if return_scaler:
-        return scaler, train_scaled, validate_scaled, test_scaled
-    else:
-        return train_scaled, validate_scaled, test_scaled
+    return train_scaled, validate_scaled, test_scaled
 
+
+def prep_for_model(train, validate, test, target):
+    '''
+    Takes in train, validate, and test data frames
+    then splits  for X (all variables but target variable) 
+    and y (only target variable) for each data frame
+    '''
+    #scale data
+    train_scaled, validate_scaled, test_scaled = scale_zillow(train, validate, test)
+    
+    #make list of cat variables to make dummies for
+    cat_vars = ['county']
+    
+    X_train = train_scaled
+    X_train = X_train.drop(columns=['home_value'])
+    dummy_df_train = pd.get_dummies(X_train[cat_vars], dummy_na=False, drop_first=[True, True])
+    X_train = pd.concat([X_train, dummy_df_train], axis=1).drop(columns=cat_vars)
+    y_train = train[target]
+
+    X_validate = validate_scaled
+    X_validate = X_validate.drop(columns=['home_value'])
+    dummy_df_validate = pd.get_dummies(X_validate[cat_vars], dummy_na=False, drop_first=[True, True])
+    X_validate = pd.concat([X_validate, dummy_df_validate], axis=1).drop(columns=cat_vars)
+    y_validate = validate[target]
+
+    X_test = test_scaled
+    X_test = X_test.drop(columns=['home_value'])
+    dummy_df_test = pd.get_dummies(X_test[cat_vars], dummy_na=False, drop_first=[True, True])
+    X_test = pd.concat([X_test, dummy_df_test], axis=1).drop(columns=cat_vars)
+    y_test = test[target]
+
+    return X_train, y_train, X_validate, y_validate, X_test, y_test
 
 # In[ ]:
 
