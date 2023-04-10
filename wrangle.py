@@ -127,6 +127,7 @@ def wrangle_zillow():
 ################################ scale and prep for modeling ##################################### 
 
 def driver_sets(train, validate, test, features):
+    ''' takes in train validate and test and returns them with selected features'''
     train = train[features]
     validate=validate[features]
     test=test[features]

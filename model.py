@@ -61,7 +61,7 @@ def baseline_models(y_train, y_validate):
 def get_lars(X_train, y_train, X_validate, y_validate):
     
     '''
-    
+    takes in x, y train, x, y, validate, returns rmse score for lasso lars model
     '''
 
     # We need y_train and y_validate to be dataframes to append the new columns with predicted values. 
@@ -92,7 +92,9 @@ def get_lars(X_train, y_train, X_validate, y_validate):
     print('===================================')
 
 def get_tweedie(X_train, y_train, X_validate, y_validate):
-    
+    '''
+    takes in x, y train, x, y, validate, returns rmse score for tweedie regressor model
+    '''
     # We need y_train and y_validate to be dataframes to append the new columns with predicted values. 
     y_train = pd.DataFrame(y_train)
     y_validate = pd.DataFrame(y_validate)
@@ -122,7 +124,9 @@ def get_tweedie(X_train, y_train, X_validate, y_validate):
 
     
 def get_linreg(X_train, y_train, X_validate, y_validate):
-    
+    '''
+    takes in x, y train, x, y, validate, returns rmse score for ols model
+    '''
     # We need y_train and y_validate to be dataframes to append the new columns with predicted values. 
     y_train = pd.DataFrame(y_train)
     y_validate = pd.DataFrame(y_validate)
@@ -152,7 +156,9 @@ def get_linreg(X_train, y_train, X_validate, y_validate):
     
     
 def get_test(X_train, y_train, X_test, y_test):
-    
+    '''
+    takes in x, y test, returns rmse score for ols model
+    ''' 
     # We need y_train & y_test to be dataframes to append the new columns with predicted values.
     y_train = pd.DataFrame(y_train)
     y_test = pd.DataFrame(y_test)

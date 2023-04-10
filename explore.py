@@ -27,7 +27,7 @@ def pearsonr_bedrooms(train):
     print("P-value:", p_value)
     
 def pearsonr_bathrooms(train):
-    '''In this code, we use the pearsonr() function to calculate the Pearson correlation coefficient 
+    '''In this function we use the pearsonr() test to calculate the Pearson correlation coefficient 
     between the bathrooms and home_value columns in the train DataFrame. The function returns two values: 
     the correlation coefficient and the p-value of the test. The output will show the correlation 
     coefficient and p-value.'''
@@ -37,7 +37,7 @@ def pearsonr_bathrooms(train):
     print("P-value:", p_value)
 
 def pearsonr_sq_ft(train):
-    '''In this code, we use the pearsonr() function to calculate the Pearson correlation coefficient 
+    '''In this funtion we use the pearsonr() test to calculate the Pearson correlation coefficient 
     between the square footage and home_value columns in the train DataFrame. The function returns two values: 
     the correlation coefficient and the p-value of the test. The output will show the correlation 
     coefficient and p-value.'''
@@ -158,7 +158,7 @@ def get_hist_sqft(train):
     
     
 def sqft_vis(train):
-    '''This function teakes in train data & will output a hexagonal jointplot visualizing the 
+    '''This function teakes in train data & will output a barplot visualizing the 
     relationship between home value and square footage'''
     
     # create a new column with the binned square footage values
