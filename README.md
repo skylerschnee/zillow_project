@@ -1,7 +1,7 @@
 # Zillow Regression Project  
 
 # Project Description:
-Within this project we will wrangle zillow data, identify significant features, and build a regression model to predict single-family home values.
+Within this project I will clean a large dataset containing sales information on single value homes within 3 counties in California. I will explore the data through visualizations and statistical tests to identify significant drivers of our target value, home value. Then I will build a regression machine learning model to predict those home values based on those features.
 
 # Project Goal:
 * Identify drivers of single family homes.
@@ -23,7 +23,7 @@ My initial hypothesis is that county, bedrooms, bathrooms, & square feet, are si
     * Does bathroom count significanty influence value?
     * Does square footage significanty influence value?
   
-* Develop a Model to predict tax value
+* Develop a model to predict tax value
 
     * Use drivers identified through exploration to build predictive models of different types
     * Evaluate models on train and validate data
