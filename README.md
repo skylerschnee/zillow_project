@@ -1,7 +1,7 @@
 # Zillow Regression Project  
 
 # Project Description:
-Within this project I will clean a large dataset containing sales information on single value homes within 3 counties in California. I will explore the data through visualizations and statistical tests to identify significant drivers of our target value, home value. Then I will build a regression machine learning model to predict those home values based on those features.
+Within this project I will clean a large dataset containing sales information on single value homes within 3 counties in California. I will explore the data through visualizations and statistical tests to identify significant drivers of our target value; home value. Then I will build a regression machine learning model to predict those home values based on those features.
 
 # Project Goal:
 * Identify drivers of single family homes.
