@@ -49,9 +49,9 @@ My initial hypothesis is that county, bedrooms, bathrooms, & square feet, are si
 
 1. Clone this repository
 2. Acquire the data from the Codeup Database ('Zillow')
-3. Put the data in the file containing the cloned repo.
+3. Put the data in the file containing the cloned repo
 4. Create or copy your env.py file to this repo, specifying the codeup hostname, username and password
-5. Run notebook.
+5. Run notebook
 
 # Takeaways and Conclusions
 
